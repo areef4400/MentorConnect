@@ -1,0 +1,120 @@
+/* .all-cards{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.subscription-card{
+    margin-left: 10px;
+    margin-top: 10px;
+    border: 0px solid black;
+    background-color: rgb(244, 248, 250);
+    border-radius: 10px;
+    width: 28%;
+    height: 300px;
+    padding: 20px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 2px 2px 5px rgb(67, 71, 73);
+}
+.inlcuded-items{
+    margin-left: 10px;
+}
+
+.subscription-card button{
+    height: 10%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.subscription-card button:hover{
+    height: 10.5%;
+    border: 1px solid black;
+}
+ */
+
+ .all-cards {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    font-family: "Poppins", sans-serif;
+}
+
+.subscription-card {
+    background: linear-gradient(145deg, #ffffff, #f3f6ff);
+    border-radius: 16px;
+    width: 25%;
+    min-width: 200px;
+    height: 340px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(230, 230, 255, 0.6);
+}
+
+.subscription-card .headings h2 {
+    color: #3c6df4;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.subscription-card .headings h5 {
+    color: #475569;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.inlcuded-items {
+    margin-left: 8px;
+}
+
+.inlcuded-items h4 {
+    color: #000000;
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.inlcuded-items ul {
+    list-style: none;
+    padding-left: 10px;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+.inlcuded-items li {
+    margin-bottom: 5px;
+    position: relative;
+    padding-left: 14px;
+}
+
+.inlcuded-items li::before {
+    content: "✔";
+    color: #22c55e;
+    position: absolute;
+    left: 0;
+    font-size: 0.85rem;
+}
+
+.subscription-card button {
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #303031, #0a0d14);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.subscription-card button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}

@@ -1,0 +1,52 @@
+.upc-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px 25px;
+  margin: 15px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.upc-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.upc-card h5 {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.upc-card h5:first-child {
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+/* Button styling */
+.upc-card button {
+  margin-top: 15px;
+  padding: 8px 18px;
+  background-color: #1d1d2e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.upc-card button:hover {
+  background-color: #3c3a5f;
+  transform: scale(1.03);
+}
+
+.upc-card button:active {
+  transform: scale(0.98);
+}

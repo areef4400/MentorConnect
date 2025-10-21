@@ -1,0 +1,9 @@
+.past-sessions, .uc-sessions{
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.sessions-page{
+    margin: 15px;
+}

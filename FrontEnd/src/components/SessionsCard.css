@@ -1,0 +1,33 @@
+/* .session-card{
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 0px solid black;
+    box-shadow: 2px 2px 8px;
+} */
+
+.session-card {
+    margin: 5px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    color: #1e293b;
+    width: 200px;
+    text-align: left;
+}
+
+.session-card:hover {
+    transform: translateY(-0.5px);
+    box-shadow: 0 10px 24px rgba(64, 108, 203, 0.2);
+}
+
+.session-card h5 {
+    margin: 6px 0;
+    font-size: 1rem;
+    color: #0e0e10;
+    font-weight: 500;
+}
+
+
