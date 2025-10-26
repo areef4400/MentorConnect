@@ -15,8 +15,12 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    private final UserRepo userRepo;
+
     @Autowired
-    UserRepo userRepo;
+    UserService(UserRepo userRepo){
+        this.userRepo = userRepo;
+    }
 
     public ResponseEntity<String> register(Users user) {
         userRepo.save(user);

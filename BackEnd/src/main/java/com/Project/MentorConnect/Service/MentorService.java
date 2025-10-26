@@ -15,8 +15,12 @@ import java.util.*;
 @Service
 public class MentorService {
 
-    @Autowired
     MentorRepo mentorRepo;
+
+    @Autowired
+    MentorService(MentorRepo mentorRepo){
+        this.mentorRepo = mentorRepo;
+    }
 
     public ResponseEntity<String> addMentor(String mentorName, String expertise, MultipartFile profilePicture) throws IOException {
         Mentors mentor = new Mentors();

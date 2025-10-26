@@ -1,5 +1,6 @@
 package com.Project.MentorConnect.Service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,9 +11,15 @@ import java.util.Map;
 
 @Service
 public class ZoomService {
-    private final String accountId = "UVk-0ThmTMKI74sWT355Wg";
-    private final String clientId = "EbFNgPAvS6yQ40F6MHnaXQ";
-    private final String clientSecret = "OPuTNYKx9nED8Qi0tzmxjAcEORC6zWZl";
+
+    @Value("${zoom.accountId}")
+    private String accountId;
+
+    @Value("${zoom.clientId}")
+    private String clientId;
+
+    @Value("${zoom.clientSecrete}")
+    private String clientSecret;
 
     public String getAccessToken() throws IOException {
         String url = "https://zoom.us/oauth/token?grant_type=account_credentials&account_id=" + accountId;

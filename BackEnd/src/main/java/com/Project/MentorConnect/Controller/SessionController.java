@@ -20,20 +20,25 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:5173")
 public class SessionController {
 
-    @Autowired
-    SessionService sessionService;
+    private final SessionService sessionService;
+    private final ZoomMeetingService zoomMeetingService;
 
     @Autowired
-    ZoomMeetingService zoomMeetingService;
+    SessionController(SessionService sessionService, ZoomMeetingService zoomMeetingService){
+        this.sessionService = sessionService;
+        this.zoomMeetingService = zoomMeetingService;
+    }
 
     @PostMapping("/addSession/{email}/{mentorId}")
     public ResponseEntity<String> addSession(@PathVariable String email, @PathVariable Integer mentorId) throws IOException {
         return sessionService.addSession(email, mentorId);
     }
+
     @GetMapping("/create-meeting/{topic}/{ldt}")
     public String createMeeting(@PathVariable String topic, @PathVariable LocalDateTime ldt) throws IOException {
         return zoomMeetingService.createMeeting(topic, ldt);
     }
+
     @GetMapping("/allSessions/{email}")
     public ResponseEntity<List<Sessions>> allSessions(@PathVariable String email){
         return sessionService.allSessions(email);

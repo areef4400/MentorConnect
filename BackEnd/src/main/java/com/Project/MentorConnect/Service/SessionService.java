@@ -21,24 +21,23 @@ import java.util.*;
 
 @Service
 public class SessionService {
+    private final ZoomMeetingService zoomMeetingService;
+    private final MentorRepo mentorRepo;
+    private final UserService userService;
+    private final SessionRepo sessionRepo;
+    private final UserRepo userRepo;
 
     @Autowired
-    ZoomMeetingService zoomMeetingService;
-
-    @Autowired
-    MentorRepo mentorRepo;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    SessionRepo sessionRepo;
-
-    @Autowired
-    UserRepo userRepo;
+    SessionService(ZoomMeetingService zoomMeetingService, MentorRepo mentorRepo, UserService userService,
+                   SessionRepo sessionRepo, UserRepo userRepo){
+            this.zoomMeetingService = zoomMeetingService;
+            this.mentorRepo = mentorRepo;
+            this.userService = userService;
+            this.sessionRepo = sessionRepo;
+            this.userRepo = userRepo;
+    }
 
     public ResponseEntity<String> addSession(String email, Integer mentorId) throws IOException {
-
         Sessions session = new Sessions();
 
         ResponseEntity<Integer> response = userService.findUserId(email);
@@ -50,29 +49,32 @@ public class SessionService {
         Mentors mentors = new Mentors();
         mentors.setMentorId(mentorId);
         session.setMentor(mentors);
+        if(user.getAvailableSession() > 0){
+            ResponseEntity<String> res = userService.decreamentSessions(email);
+            Optional<Mentors> mentor = mentorRepo.findById(mentorId);
 
-        ResponseEntity<String> res = userService.decreamentSessions(email);
-        Optional<Mentors> mentor = mentorRepo.findById(mentorId);
+            if(mentor.isPresent()){
+                Mentors m1 = mentor.get();
+                m1.setSessionAvailable(false);
 
-        if(mentor.isPresent()){
-            Mentors m1 = mentor.get();
-            m1.setSessionAvailable(false);
+                mentorRepo.save(m1);
+                LocalDate today = LocalDate.now();
 
-            mentorRepo.save(m1);
-            LocalDate today = LocalDate.now();
+                LocalDateTime ldt = LocalDateTime.of(today, m1.getSessionTime());
 
-            LocalDateTime ldt = LocalDateTime.of(today, m1.getSessionTime());
+                String zoomLink = zoomMeetingService.createMeeting("Mentor Session", ldt);
+                session.setZoomLink(zoomLink);
+                session.setLocalDate(today);
+                session.setLocalTime(m1.getSessionTime());
+                session.setState("Upcoming");
 
-            String zoomLink = zoomMeetingService.createMeeting("Mentor Session", ldt);
-            session.setZoomLink(zoomLink);
-            session.setLocalDate(today);
-            session.setLocalTime(m1.getSessionTime());
-            session.setState("Upcoming");
-
-            sessionRepo.save(session);
+                sessionRepo.save(session);
+            }
+            return new ResponseEntity<>("Session Added", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Session Added", HttpStatus.OK);
+        return new ResponseEntity<>("No Subscription is available", HttpStatus.OK);
     }
+
 
     public ResponseEntity<List<Sessions>> allSessions(String email) {
 
@@ -90,6 +92,7 @@ public class SessionService {
         Collections.sort(list, (a, b) -> (a.getId()-b.getId()));
         return new ResponseEntity<>(sessions, HttpStatus.OK);
     }
+
 
     public ResponseEntity<List<Sessions>> upComingSession(String email) {
 
