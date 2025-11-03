@@ -6,6 +6,7 @@ import com.Project.MentorConnect.Model.Users;
 import com.Project.MentorConnect.Repository.MentorRepo;
 import com.Project.MentorConnect.Repository.SessionRepo;
 import com.Project.MentorConnect.Repository.UserRepo;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class SessionService {
     private final UserRepo userRepo;
 
     @Autowired
-    SessionService(ZoomMeetingService zoomMeetingService, MentorRepo mentorRepo, UserService userService,
+    public SessionService(ZoomMeetingService zoomMeetingService, MentorRepo mentorRepo, UserService userService,
                    SessionRepo sessionRepo, UserRepo userRepo){
             this.zoomMeetingService = zoomMeetingService;
             this.mentorRepo = mentorRepo;
@@ -78,40 +79,47 @@ public class SessionService {
 
     public ResponseEntity<List<Sessions>> allSessions(String email) {
 
-        ResponseEntity<Integer> found = userService.findUserId(email);
-        Integer userId = found.getBody();
+        try{
+            ResponseEntity<Integer> found = userService.findUserId(email);
+            Integer userId = found.getBody();
 
-        List<Sessions> list = sessionRepo.findAll();
-        List<Sessions> sessions = new ArrayList<>();
+            List<Sessions> list = sessionRepo.findAll();
+            List<Sessions> sessions = new ArrayList<>();
 
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getUser().getUserId() == userId){
-                sessions.add(list.get(i));
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i).getUser().getUserId() == userId){
+                    sessions.add(list.get(i));
+                }
             }
+            Collections.sort(list, (a, b) -> (a.getId()-b.getId()));
+            return new ResponseEntity<>(sessions, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
         }
-        Collections.sort(list, (a, b) -> (a.getId()-b.getId()));
-        return new ResponseEntity<>(sessions, HttpStatus.OK);
     }
 
 
     public ResponseEntity<List<Sessions>> upComingSession(String email) {
+        try{
+            Optional<Users> find = userRepo.findByEmail(email);
+            if (find.isPresent()) {
+                Users user = find.get();
+                List<Sessions> list = sessionRepo.findAll();
 
-        Optional<Users> find = userRepo.findByEmail(email);
-        if (find.isPresent()) {
-            Users user = find.get();
-            List<Sessions> list = sessionRepo.findAll();
+                List<Sessions> sessions = new ArrayList<>();
 
-            List<Sessions> sessions = new ArrayList<>();
-
-            for(int i = 0; i < list.size(); i++){
-                if(list.get(i).getUser().getUserId() == user.getUserId()
-                        && list.get(i).getState().equals("Upcoming")){
-                    sessions.add(list.get(i));
+                for(int i = 0; i < list.size(); i++){
+                    if(list.get(i).getUser().getUserId() == user.getUserId()
+                            && list.get(i).getState().equals("Upcoming")){
+                        sessions.add(list.get(i));
+                    }
                 }
+                Collections.sort(list, (a, b) -> (a.getId())-b.getId());
+                return new ResponseEntity<>(sessions, HttpStatus.OK);
             }
-            Collections.sort(list, (a, b) -> (a.getId())-b.getId());
-            return new ResponseEntity<>(sessions, HttpStatus.OK);
+            return new ResponseEntity<>(new ArrayList<Sessions>(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
         }
-        return new ResponseEntity<>(new ArrayList<Sessions>(), HttpStatus.NOT_FOUND);
     }
 }

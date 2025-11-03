@@ -11,9 +11,18 @@ import java.sql.Time;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ApiError> handleUsernamePasswordNotFoundException(UsernameNotFoundException e){
+
         ApiError apiError = new ApiError("Username not found with password ", e.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiError, apiError.getHttpStatus());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiError> handleException(Exception e){
+        ApiError apiError = new ApiError("Exception", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
         return new ResponseEntity<>(apiError, apiError.getHttpStatus());
     }
 }

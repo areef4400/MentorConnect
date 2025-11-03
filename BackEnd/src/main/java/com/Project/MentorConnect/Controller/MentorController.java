@@ -3,6 +3,7 @@ package com.Project.MentorConnect.Controller;
 import com.Project.MentorConnect.Model.Mentors;
 import com.Project.MentorConnect.Service.MentorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,10 @@ public class MentorController {
 
     @GetMapping("/allMentors")
     public ResponseEntity<List<Mentors>> allMentors(){
-        return mentorService.allMentors();
+        try{
+            return mentorService.allMentors();
+        }catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
