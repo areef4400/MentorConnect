@@ -13,7 +13,7 @@ function Sessions(){
         const fun = async()=>{
             try{
     
-                const responce = await fetch(`http://localhost:8080/session/allSessions/${email}`,{
+                const responce = await fetch(`http://localhost:8080/user/allSessions/${email}`,{
                     method : "GET",
                     headers : {
                         "Content-Type" : "application/json",
@@ -24,7 +24,7 @@ function Sessions(){
                 const data = await responce.json();
                 setSessionList(data);
         
-                // console.log(sessionList);
+//                 console.log(data);
             }catch{
                 console.log("There was an error during fetching Sessions Data")
             }
@@ -43,7 +43,7 @@ function Sessions(){
                             item.state == "Past"?
                             <SessionsCard key = {item.id}
                             sessionDate={item.localDate}
-                            mentor={item.mentor.mentorName} 
+                            mentor={item.mentorName}
                             sessionTime={item.localTime}/>
                             :null
                         ))
@@ -58,9 +58,9 @@ function Sessions(){
                     {
                         sessionList.map((item) =>(
                             item.state == "Upcoming"?
-                            <SessionsCard key = {item.id} 
-                            sessionDate={item.localDate} 
-                            mentor={item.mentor.mentorName} 
+                            <SessionsCard key = {item.id}
+                            sessionDate={item.localDate}
+                            mentor={item.mentorName}
                             sessionTime={item.localTime}/>
                             :null
                         ))

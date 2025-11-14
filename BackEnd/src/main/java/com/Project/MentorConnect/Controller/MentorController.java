@@ -1,5 +1,6 @@
 package com.Project.MentorConnect.Controller;
 
+import com.Project.MentorConnect.Model.MentorDto;
 import com.Project.MentorConnect.Model.Mentors;
 import com.Project.MentorConnect.Service.MentorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MentorController {
     }
 
     @GetMapping("/allMentors")
-    public ResponseEntity<List<Mentors>> allMentors(){
+    public ResponseEntity<List<MentorDto>> allMentors(){
         try{
             return mentorService.allMentors();
         }catch (Exception e){

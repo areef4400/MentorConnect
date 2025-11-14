@@ -38,7 +38,7 @@ function Home({ setLogin, login }) {
     
     const fetchSessions = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/session/up-coming-session/${email}`, {
+        const response = await fetch(`http://localhost:8080/user/up-coming-session/${email}`, {
           method: "GET",
           headers: { 
             "Content-Type": "application/json",
@@ -49,12 +49,11 @@ function Home({ setLogin, login }) {
         const data = await response.json();
 
         setSessionList(data);
-        // console.log(data);
 
         if (data.length > 0) {
           setDate(data[0].localDate);
           setTime(data[0].localTime);
-          setMentor(data[0].mentor.mentorName);
+          setMentor(data[0].mentorName);
           setZoomLonk(data[0].zoomLink);
           setCheck(true);
         } else {

@@ -23,7 +23,7 @@ function MentorCard({name, sessions, position, img, companyName, mentorId, sessi
                 alert("You do not have any active Plan");
             }else{
                 try{
-                    const respsonce = await fetch(`http://localhost:8080/session/addSession/${email}/${mentorId}`,{
+                    const respsonce = await fetch(`http://localhost:8080/user/addSession/${email}/${mentorId}`,{
                         method : "POST",
                         headers :{
                             "Content-Type" : "application/json",

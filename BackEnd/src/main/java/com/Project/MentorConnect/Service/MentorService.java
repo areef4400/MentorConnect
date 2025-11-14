@@ -1,5 +1,6 @@
 package com.Project.MentorConnect.Service;
 
+import com.Project.MentorConnect.Model.MentorDto;
 import com.Project.MentorConnect.Model.Mentors;
 import com.Project.MentorConnect.Repository.MentorRepo;
 import org.hibernate.service.spi.ServiceException;
@@ -39,13 +40,20 @@ public class MentorService {
         }
     }
 
-    public ResponseEntity<List<Mentors>> allMentors() {
+    public ResponseEntity<List<MentorDto>> allMentors() {
         try{
             List<Mentors> allMentors = mentorRepo.findAll();
-            List<Mentors> mentors = new ArrayList<>();
+            List<MentorDto> mentors = new ArrayList<>();
             for(int i = 0; i < allMentors.size(); i++){
                 if(allMentors.get(i).isSessionAvailable()){
-                    mentors.add(allMentors.get(i));
+                    MentorDto mentorDto = new MentorDto();
+                    mentorDto.setMentorId(allMentors.get(i).getMentorId());
+                    mentorDto.setMentorName(allMentors.get(i).getMentorName());
+                    mentorDto.setCompanyName(allMentors.get(i).getCompanyName());
+                    mentorDto.setSessions(allMentors.get(i).getSessions());
+                    mentorDto.setExpertise(allMentors.get(i).getExpertise());
+                    mentorDto.setProfilePicture(allMentors.get(i).getProfilePicture());
+                    mentors.add(mentorDto);
                 }
             }
             return new ResponseEntity<>(mentors, HttpStatus.OK);

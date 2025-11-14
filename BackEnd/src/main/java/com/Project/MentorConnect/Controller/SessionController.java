@@ -30,39 +30,12 @@ public class SessionController {
         this.zoomMeetingService = zoomMeetingService;
     }
 
-    @PostMapping("/addSession/{email}/{mentorId}")
-    public ResponseEntity<String> addSession(@PathVariable String email, @PathVariable Integer mentorId) throws IOException {
-        try{
-            return sessionService.addSession(email, mentorId);
-        } catch (IOException e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/create-meeting/{topic}/{ldt}")
     public String createMeeting(@PathVariable String topic, @PathVariable LocalDateTime ldt) throws IOException {
         try{
             return zoomMeetingService.createMeeting(topic, ldt);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    @GetMapping("/allSessions/{email}")
-    public ResponseEntity<List<Sessions>> allSessions(@PathVariable String email){
-        try{
-            return sessionService.allSessions(email);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/up-coming-session/{email}")
-    public ResponseEntity<List<Sessions>> upComingSession(@PathVariable String email){
-        try{
-            return sessionService.upComingSession(email);
-        }catch(Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
