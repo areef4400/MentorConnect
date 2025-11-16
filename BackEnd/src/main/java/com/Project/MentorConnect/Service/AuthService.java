@@ -52,6 +52,7 @@ public class AuthService {
                     .userId(signupRequestDto.getUserId())
                     .username(signupRequestDto.getUsername())
                     .email(signupRequestDto.getEmail())
+                    .role("USER")
                     .password(passwordEncoder.encode(signupRequestDto.getPassword()))
                     .availableSession(signupRequestDto.getAvailableSession())
                     .build()
